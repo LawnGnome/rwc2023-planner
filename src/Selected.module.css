@@ -1,0 +1,8 @@
+.container {
+  margin: 1em;
+}
+
+.container h2 {
+  font-weight: bold;
+  height: 2rem;
+}

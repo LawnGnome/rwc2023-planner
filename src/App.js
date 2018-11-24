@@ -3,7 +3,7 @@ import React from "react";
 import Map from "./Map";
 import Menu from "./Menu";
 import Provider from "./StateProvider";
-import Schedule from "./Schedule";
+import Selected from "./Selected";
 
 import styles from "./App.module.css";
 
@@ -13,10 +13,13 @@ export default class App extends React.Component {
       <Provider>
         <div className={styles.container}>
           <div className={styles.map}>
-            <Map grounds={Schedule.grounds} />
+            <Map />
+          </div>
+          <div className={styles.selected}>
+            <Selected />
           </div>
           <div className={styles.menu}>
-            <Menu schedule={Schedule} />
+            <Menu />
           </div>
         </div>
       </Provider>

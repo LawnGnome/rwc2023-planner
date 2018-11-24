@@ -12,6 +12,16 @@ class Schedule {
     );
     this.matches = data.matches;
   }
+
+  getMatch(id) {
+    for (const match of this.matches) {
+      if (match.id === id) {
+        return match;
+      }
+    }
+
+    return undefined;
+  }
 }
 
 class Team {
