@@ -54,11 +54,9 @@ export default class MatchList extends React.Component {
                 <span className={styles.time}>
                   {moment(match.time).format("ddd D/M")}
                 </span>
-                <span className={styles.teams}>
-                  {match.teams.map(team => (
-                    <Team key={team} team={state.schedule.teams[team]} />
-                  ))}
-                </span>
+                {match.teams.map(team => (
+                  <Team key={team} team={state.schedule.teams[team]} />
+                ))}
                 <span className={styles.ground}>{match.ground}</span>
               </li>
             ))}

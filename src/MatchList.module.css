@@ -7,9 +7,11 @@
 .match {
   border-bottom: solid 1px rgba(0, 0, 0, 0.25);
   margin: 0;
-  padding: 0.25em;
+  padding: 0.5em 0.25em;
   display: grid;
   width: 100%;
+  grid-auto-flow: column;
+  grid-gap: 0.5em 0.5em;
   grid-template-columns: 7em auto;
   cursor: pointer;
   transition: all 0.2s;
@@ -26,18 +28,20 @@
 .time {
   grid-column: 1 / 2;
   grid-row: 1 / 2;
-  padding: 0 1em 0.5em 0;
   font-size: 110%;
-}
-
-.teams {
-  grid-column: 2 / 3;
-  grid-row: 1 / 3;
+  justify-self: start;
 }
 
 .team {
-  display: block;
-  line-height: 1.6;
+  grid-column: 2 / 3;
+}
+
+.team:first-child {
+  justify-self: start;
+}
+
+.team:last-child {
+  justify-self: end;
 }
 
 .emoji {
@@ -48,11 +52,5 @@
   grid-column: 1 / 2;
   grid-row: 2 / 3;
   font-size: 90%;
-}
-
-.modify {
-  grid-column: 3 / 4;
-  grid-row: 1 / 3;
-  align-self: center;
-  justify-self: end;
+  align-self: end;
 }
