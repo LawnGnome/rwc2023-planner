@@ -1,0 +1,35 @@
+.marker {
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+.svg {
+  width: 1em;
+  height: 1em;
+  transition: all 0.2s;
+  opacity: 0.5;
+}
+
+.marker .svg:hover,
+.marker.highlight .svg {
+  opacity: 1;
+  width: 1.5em;
+  height: 1.5em;
+  transform: translate(-0.25em, -0.25em);
+}
+
+.marker .label {
+  position: absolute;
+  bottom: 0;
+  opacity: 0;
+  z-index: 10000;
+  transition: opacity 0.2s;
+  transform: translateX(calc(-50% + 0.5em));
+}
+
+.marker:hover .label,
+.marker.highlight .label {
+  opacity: 1;
+  pointer-events: none;
+}
