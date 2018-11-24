@@ -16,6 +16,7 @@ export default class Selected extends React.Component {
               matches={state.schedule.matches.filter(match =>
                 state.isMatchSelected(match.id)
               )}
+              showEdges
             />
           </div>
         )}

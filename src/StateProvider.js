@@ -2,15 +2,17 @@ import React from "react";
 
 import Schedule from "./Schedule";
 
-let DEFAULT_MATCHES = [];
-
-try {
-  DEFAULT_MATCHES = JSON.parse(window.location.hash.replace(/^#/, ""));
-} catch (e) {}
+function matchIDsFromLocation(hash) {
+  try {
+    return JSON.parse(hash.replace(/^#/, ""));
+  } catch (e) {
+    return undefined;
+  }
+}
 
 const DEFAULT_STATE = {
   highlightedGround: null,
-  matches: DEFAULT_MATCHES,
+  matches: matchIDsFromLocation(window.location.hash),
   schedule: Schedule
 };
 
@@ -23,11 +25,11 @@ export default class Provider extends React.Component {
     super(props);
 
     window.addEventListener("hashchange", () => {
-      try {
-        this.setState({
-          matches: JSON.parse(window.location.hash.replace(/^#/, ""))
-        });
-      } catch (e) {}
+      const matches = matchIDsFromLocation(window.location.hash);
+
+      if (matches) {
+        this.setState({ matches });
+      }
     });
   }
 
