@@ -2,3 +2,7 @@
   background: transparent;
   border: none;
 }
+
+.leaflet-interactive {
+  transition: all 0.2s;
+}

@@ -103,21 +103,28 @@ export default class Map extends React.Component {
                   <Marker icon={di} key={label} position={ground.coords} />
                 );
               })}
-              {[...state.getEdges()].map((edge, i) => (
-                <Polyline
-                  key={i}
-                  color={`#${edge.colour}`}
-                  opacity={
-                    state.highlightedEdge === null
-                      ? 0.5
-                      : state.highlightedEdge[0] === edge.a.match.id &&
-                        state.highlightedEdge[1] === edge.b.match.id
-                      ? 1.0
-                      : 0.2
-                  }
-                  positions={[edge.a.ground.coords, edge.b.ground.coords]}
-                />
-              ))}
+              {[...state.getEdges()].map((edge, i) => {
+                const isHighlighted =
+                  state.highlightedEdge !== null &&
+                  state.highlightedEdge[0] === edge.a.match.id &&
+                  state.highlightedEdge[1] === edge.b.match.id;
+
+                return (
+                  <Polyline
+                    key={i}
+                    color={`#${edge.colour}`}
+                    opacity={
+                      state.highlightedEdge === null
+                        ? 0.5
+                        : isHighlighted
+                        ? 1.0
+                        : 0.2
+                    }
+                    weight={isHighlighted ? 5 : 3}
+                    positions={[edge.a.ground.coords, edge.b.ground.coords]}
+                  />
+                );
+              })}
             </LeafletMap>
           );
         }}

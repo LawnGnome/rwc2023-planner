@@ -132,7 +132,7 @@ export default class Provider extends React.Component {
           ...this.state,
           getEdges: () => this.calculateEdges(this.state.matches),
           addMatch: id => this.addMatch(id),
-          clearMatches: () => this.setState({ matches: [] }),
+          clearMatches: () => this.updateMatches([]),
           isMatchSelected: id => this.isMatchSelected(id),
           removeMatch: id => this.removeMatch(id),
           setHighlightedEdge: (a, b) =>

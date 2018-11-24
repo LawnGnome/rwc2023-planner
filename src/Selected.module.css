@@ -5,4 +5,17 @@
 .container h2 {
   font-weight: bold;
   height: 2rem;
+  display: flex;
+}
+
+.container h2 span {
+  flex-grow: 1;
+}
+
+.container button {
+  appearance: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 100%;
 }
