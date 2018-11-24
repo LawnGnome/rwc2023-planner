@@ -1,10 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import humaniseDistance from "humanize-distance";
 import moment from "moment";
-
-// Required for humanize-distance to be able to render the distance.
-import "intl/locale-data/jsonp/en-US.js";
 
 import { StateContext } from "./StateProvider";
 
@@ -42,29 +38,36 @@ export default class MatchList extends React.Component {
           {state => {
             let elements = [];
             let previous = null;
+            const edges = showEdges ? state.getEdges() : null;
 
-            matches.forEach(match => {
+            matches.forEach((match, i) => {
               if (showEdges && previous) {
-                const ga = state.schedule.grounds[previous.ground];
-                const gb = state.schedule.grounds[match.ground];
-                const distance = humaniseDistance(
-                  { latitude: ga.coords[0], longitude: ga.coords[1] },
-                  { latitude: gb.coords[0], longitude: gb.coords[1] },
-                  "en-US",
-                  "metric"
-                );
-                const duration = moment.duration(
-                  moment(match.time).diff(moment(previous.time))
-                );
+                const edge = edges.get(previous, match);
 
-                elements.push(
-                  <li
-                    className={styles.travel}
-                    key={`${previous.id}-${match.id}`}
-                  >
-                    Travelling {distance} in {duration.humanize()}
-                  </li>
-                );
+                if (edge) {
+                  elements.push(
+                    <li
+                      className={styles.travel}
+                      key={`${previous.id}-${match.id}`}
+                      style={{ color: `#${edge.colour}` }}
+                      onMouseOver={() =>
+                        state.setHighlightedEdge(
+                          edge.a.match.id,
+                          edge.b.match.id
+                        )
+                      }
+                      onMouseOut={() =>
+                        state.highlightedEdge &&
+                        state.highlightedEdge[0] === edge.a.match.id &&
+                        state.highlightedEdge[1] === edge.b.match.id
+                          ? state.setHighlightedEdge(null)
+                          : false
+                      }
+                    >
+                      Travelling {edge.distance} in {edge.duration.humanize()}
+                    </li>
+                  );
+                }
               }
 
               elements.push(

@@ -2,10 +2,9 @@ import React from "react";
 import ReactDOMServer from "react-dom/server";
 import PropTypes from "prop-types";
 import L from "leaflet";
-import { Map as LeafletMap, Marker, TileLayer } from "react-leaflet";
+import { Map as LeafletMap, Marker, Polyline, TileLayer } from "react-leaflet";
 import Palette from "google-palette";
 
-import PolylineDecorator from "./PolylineDecorator";
 import { StateContext } from "./StateProvider";
 
 // We need Leaflet's CSS.
@@ -69,20 +68,6 @@ export default class Map extends React.Component {
     return bounds;
   }
 
-  static calculateEdges(matches) {
-    let edges = [];
-    let previous = null;
-
-    matches.forEach(match => {
-      if (previous !== null) {
-        edges.push([previous, match]);
-      }
-      previous = match;
-    });
-
-    return edges;
-  }
-
   render() {
     return (
       <StateContext.Consumer>
@@ -118,34 +103,21 @@ export default class Map extends React.Component {
                   <Marker icon={di} key={label} position={ground.coords} />
                 );
               })}
-              {Map.calculateEdges(state.matches).map((edge, i) => {
-                const from =
-                  state.schedule.grounds[
-                    state.schedule.getMatch(edge[0]).ground
-                  ];
-                const to =
-                  state.schedule.grounds[
-                    state.schedule.getMatch(edge[1]).ground
-                  ];
-
-                //return <Polyline positions={[from.coords, to.coords]} />;
-                return (
-                  <PolylineDecorator
-                    key={i}
-                    positions={[from.coords, to.coords]}
-                    patterns={[
-                      {
-                        endOffset: 0,
-                        repeat: 0,
-                        symbol: L.Symbol.arrowHead({
-                          pathOptions: { stroke: true }
-                        })
-                      }
-                    ]}
-                    fillColor="red"
-                  />
-                );
-              })}
+              {[...state.getEdges()].map((edge, i) => (
+                <Polyline
+                  key={i}
+                  color={`#${edge.colour}`}
+                  opacity={
+                    state.highlightedEdge === null
+                      ? 0.5
+                      : state.highlightedEdge[0] === edge.a.match.id &&
+                        state.highlightedEdge[1] === edge.b.match.id
+                      ? 1.0
+                      : 0.2
+                  }
+                  positions={[edge.a.ground.coords, edge.b.ground.coords]}
+                />
+              ))}
             </LeafletMap>
           );
         }}
