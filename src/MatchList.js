@@ -45,6 +45,11 @@ export default class MatchList extends React.Component {
                     ? state.setHighlightedGround(null)
                     : false
                 }
+                onClick={() =>
+                  state.isMatchSelected(match.id)
+                    ? state.removeMatch(match.id)
+                    : state.addMatch(match.id)
+                }
               >
                 <span className={styles.time}>
                   {moment(match.time).format("ddd D/M")}
@@ -55,15 +60,6 @@ export default class MatchList extends React.Component {
                   ))}
                 </span>
                 <span className={styles.ground}>{match.ground}</span>
-                <span className={styles.modify}>
-                  {state.isMatchSelected(match.id) ? (
-                    <button onClick={() => state.removeMatch(match.id)}>
-                      -
-                    </button>
-                  ) : (
-                    <button onClick={() => state.addMatch(match.id)}>+</button>
-                  )}
-                </span>
               </li>
             ))}
           </ul>
