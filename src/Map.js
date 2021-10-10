@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOMServer from "react-dom/server";
 import PropTypes from "prop-types";
 import L from "leaflet";
-import { Map as LeafletMap, Marker, Polyline, TileLayer } from "react-leaflet";
+import { MapContainer, Marker, Polyline, TileLayer } from "react-leaflet";
 import Palette from "google-palette";
 
 import { StateContext } from "./StateProvider";
@@ -79,7 +79,7 @@ export default class Map extends React.Component {
           );
 
           return (
-            <LeafletMap
+            <MapContainer
               style={{ height: "100%", width: "100%" }}
               bounds={Map.calculateBounds(grounds)}
               maxZoom={18}
@@ -125,7 +125,7 @@ export default class Map extends React.Component {
                   />
                 );
               })}
-            </LeafletMap>
+            </MapContainer>
           );
         }}
       </StateContext.Consumer>
